@@ -1,0 +1,13 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Calcular Valor do ISS"
+	dialect "java"
+	no-loop true
+	ruleflow-group "aplicar-aliquota-flow"
+	when
+		Houver uma ordem de pagamento Pronta para aplicar ISS
+	then
+		Aplicar aliquota do ISS
+end

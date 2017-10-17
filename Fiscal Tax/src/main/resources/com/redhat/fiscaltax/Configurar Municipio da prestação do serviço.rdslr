@@ -1,0 +1,14 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Configurar Municipio da prestação do serviço"
+	dialect "java"
+	no-loop true
+	ruleflow-group "config-municipio-rule"
+	lock-on-active true
+	when
+		Serviço não for devido no local do prestador
+	then
+		Utilizar municipio do local da prestação do serviço
+end

@@ -1,0 +1,15 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Ordem de pagamento isenta de ISS"
+	dialect "java"
+	salience 8
+	ruleflow-group "iss-rule"
+	no-loop true
+	lock-on-active true
+	when
+		Ordem de pagamento isenta de ISS
+	then
+		Aplicar ISS igual a zero
+end

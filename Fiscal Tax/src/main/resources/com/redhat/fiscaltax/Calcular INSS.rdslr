@@ -1,0 +1,15 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Calcular INSS"
+	dialect "java"
+	ruleflow-group "inss-rules"
+	no-loop true
+	when
+		Houver uma ordem de pagamento
+		com serviço habilitado para retenção de INSS
+		prestador é pessoa física
+	then
+		Aplicar a aliquota de 8.0 do INSS
+end

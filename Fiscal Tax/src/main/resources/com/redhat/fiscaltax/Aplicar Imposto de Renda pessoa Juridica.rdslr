@@ -1,0 +1,14 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Aplicar Imposto de Renda pessoa Juridica"
+	dialect "java"
+	no-loop true
+	ruleflow-group "ir-rules"
+	salience 15
+	when
+		Prestador é pessoa Juridica
+	then
+		Aplicar aliquota de 1.5 do Imposto de Renda
+end

@@ -1,0 +1,14 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Configurar ISS SAS Estabelecida no local"
+	dialect "java"
+	no-loop true
+	ruleflow-group "iss-rule"
+	salience 9
+	when
+		SAS não estabelecida no municipio da retenção
+	then
+		Aplicar ISS igual a zero
+end

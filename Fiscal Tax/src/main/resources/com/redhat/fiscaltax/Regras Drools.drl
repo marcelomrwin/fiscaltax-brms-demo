@@ -1,0 +1,64 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Configurar Municipio Prestador Drools"
+	dialect "java"
+	no-loop true
+	lock-on-active
+	ruleflow-group "config-municipio-rule2"
+	when
+		$ope : OrdemPagamentoEntrada() 
+		$ops : OrdemPagamentoRule( servDevLocPrest == true ) 
+		$ret : Retorno()
+	then
+		modify($ret){
+		    setVlBaseISS($ope.getVlItem())
+		}
+		modify($ops){
+		    setCdMunicipio(new Integer($ope.getCodMunic())) 
+		}
+end
+
+rule "Configurar Municipio da prestação do serviço Drools"
+	dialect "java"
+	no-loop true
+	lock-on-active
+	ruleflow-group "config-municipio-rule2"
+	when
+		$ope : OrdemPagamentoEntrada() 
+		$ops : OrdemPagamentoRule( servDevLocPrest == false ) 
+		$ret : Retorno()
+	then
+		$ops.setCdMunicipio(new Integer($ope.getCodMunicServ())); 
+		$ret.setVlBaseISS($ope.getVlItem()); 
+		update($ret);
+		update($ops);
+end
+
+
+//regra que inicia o calculo do IRPF
+rule "Aplicar Imposto de Renda pessoa Fisica"
+	dialect "java"
+	no-loop true
+	ruleflow-group "ir-rules"
+	salience 10
+	when
+		$ope : OrdemPagamentoEntrada(FJ == 'F') $ret : Retorno() $ops : OrdemPagamentoRule()
+	then
+		$ret.setVlBaseIR($ope.getVlItem()); 
+		$ret.setVlImpostoIR(0.0);
+		$ops.setVlIRPF(0.0);
+		$ops.setSaldoIRPF($ope.getVlItem());
+		$ops.setAliquotaIRPF(0.0);
+end
+
+rule "Preparação IRPF PF"
+    ruleflow-group "irpf-rules"
+    no-loop true
+    when
+        $ops : OrdemPagamentoRule()
+    then
+        $ops.setImpostopf(true);
+        update($ops);
+end

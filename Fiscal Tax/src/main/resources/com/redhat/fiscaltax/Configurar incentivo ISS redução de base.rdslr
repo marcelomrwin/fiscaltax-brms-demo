@@ -1,0 +1,15 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Configurar incentivo ISS redução de base"
+	dialect "mvel"
+	salience 7
+	ruleflow-group "iss-rule"
+	no-loop true
+	lock-on-active true
+	when
+		Ordem de pagamento com incentivo ISS Redução de base
+	then
+		Aplicar redução de base em 40
+end

@@ -1,0 +1,14 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Acumular valor Imposto de Renda"
+	dialect "java"
+	no-loop true
+	ruleflow-group "acumular-ir-rules"
+	salience 1
+	when
+		Houver uma ordem de pagamento para pessoa fisica ou juridica
+	then
+		Acumular valor pago Imposto de Renda
+end

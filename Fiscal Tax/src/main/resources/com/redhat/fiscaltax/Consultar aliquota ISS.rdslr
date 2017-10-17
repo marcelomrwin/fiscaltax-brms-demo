@@ -1,0 +1,13 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Consultar aliquota ISS"
+	dialect "java"
+	no-loop true
+	ruleflow-group "consultar-aliquota-iss"
+	when
+		Aliquota ISS não encontrada
+	then
+		Consultar e Aplicar aliquota para o Municipio e Servico do item
+end

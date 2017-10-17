@@ -1,0 +1,13 @@
+package com.redhat.fiscaltax;
+
+import java.lang.Number;
+
+rule "Calcular COFINS"
+	dialect "mvel"
+	no-loop true
+	ruleflow-group "confins-rules"
+	when
+		Houver uma ordem de pagamento
+	then
+		Aplicar a aliquota de 7.6 do COFINS
+end

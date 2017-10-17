@@ -1,0 +1,104 @@
+package com.redhat.fiscaltax;
+
+query "Retornar Ordem Pagamento Saida"
+    $ops: com.redhat.fiscaltax.OrdemPagamentoRule( )
+end
+
+query "Retornar Retorno"
+    $ret: com.redhat.fiscaltax.Retorno( )
+end
+
+query "Retornar Ordem Pagamento Entrada"
+    $ope: com.redhat.fiscaltax.OrdemPagamentoEntrada( )
+end
+
+//DECISION TABLE IRPF
+
+//from row number: 1
+//Faixa 1
+rule "Row 1 Tabela IRPF Droos"
+	dialect "mvel"
+	ruleflow-group "irpf-rules-drools"
+	when
+		$ops : OrdemPagamentoRule(impostopf == true, saldoIRPF >= 0.0 , saldoIRPF <= 1903.98 , reterIR == true )
+		$ope: OrdemPagamentoEntrada( FJ == "F" )
+	then
+	    System.out.println("saldoIRPF = "+$ops.getSaldoIRPF());
+		System.out.println("reterIR = "+$ops.getReterIR());
+		System.out.println("FJ = "+$ope.getFJ());
+		CalculoIRPF $irpf = new CalculoIRPF();
+		$irpf.setAliquota( 0.0 );
+		$irpf.setFaixaBase( 1903.98 );
+		insert( $irpf );
+		$ops.atualizarSaldoIRPF($irpf.getAliquota(),$irpf.getFaixaBase());
+		update($ops);
+end
+
+//from row number: 2
+//Faixa 2
+rule "Row 2 Tabela IRPF Droos"
+	dialect "mvel"
+	ruleflow-group "irpf-rules-drools"
+	when
+		$ops : OrdemPagamentoRule( saldoIRPF >= 1903.99 , saldoIRPF <= 2826.65 , reterIR == true, impostopf == true )
+		$ope: OrdemPagamentoEntrada( FJ == "F" )
+	then
+		CalculoIRPF $irpf = new CalculoIRPF();
+		$irpf.setAliquota( 7.5 );
+		$irpf.setFaixaBase( 1903.98 );
+		insert( $irpf );
+		$ops.atualizarSaldoIRPF($irpf.getAliquota(),$irpf.getFaixaBase());
+		update($ops);
+end
+
+//from row number: 3
+//Faixa 3
+rule "Row 3 Tabela IRPF Droos"
+	dialect "mvel"
+	ruleflow-group "irpf-rules-drools"
+	when
+		$ops : OrdemPagamentoRule( saldoIRPF >= 2826.66 , saldoIRPF <= 3751.05 , reterIR == true, impostopf == true )
+		$ope: OrdemPagamentoEntrada( FJ == "F" )
+	then
+		CalculoIRPF $irpf = new CalculoIRPF();
+		$irpf.setAliquota( 15.0 );
+		$irpf.setFaixaBase( 2826.65 );
+		insert( $irpf );
+		$ops.atualizarSaldoIRPF($irpf.getAliquota(),$irpf.getFaixaBase());
+		update($ops);
+end
+
+//from row number: 4
+//Faixa 4
+rule "Row 4 Tabela IRPF Droos"
+	dialect "mvel"
+	ruleflow-group "irpf-rules-drools"
+	when
+		$ops : OrdemPagamentoRule( saldoIRPF >= 3751.06 , saldoIRPF <= 4664.68 , reterIR == true, impostopf == true )
+		$ope: OrdemPagamentoEntrada( FJ == "F" )
+	then
+		CalculoIRPF $irpf = new CalculoIRPF();
+		$irpf.setAliquota( 22.5 );
+		$irpf.setFaixaBase( 3751.05 );
+		insert( $irpf );
+		$ops.atualizarSaldoIRPF($irpf.getAliquota(),$irpf.getFaixaBase());
+		update($ops);
+end
+
+//from row number: 5
+//Faixa 5
+rule "Row 5 Tabela IRPF Droos"
+	dialect "mvel"
+	ruleflow-group "irpf-rules-drools"
+	when
+		$ops : OrdemPagamentoRule( saldoIRPF >= 4664.69 , reterIR == true, impostopf == true )
+		$ope: OrdemPagamentoEntrada( FJ == "F" )
+	then
+		CalculoIRPF $irpf = new CalculoIRPF();
+		$irpf.setAliquota( 27.5 );
+		$irpf.setFaixaBase( 4664.68 );
+		insert( $irpf );
+		$ops.atualizarSaldoIRPF($irpf.getAliquota(),$irpf.getFaixaBase());
+		update($ops);
+end
+

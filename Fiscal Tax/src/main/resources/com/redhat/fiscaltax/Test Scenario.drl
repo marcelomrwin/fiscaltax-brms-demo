@@ -1,0 +1,96 @@
+package com.redhat.fiscaltax;
+
+//from row number: 1
+//Faixa 1
+rule "Row1 Tabela IRPF2"
+	dialect "java"
+	ruleflow-group "irpf-rules2"
+	salience 5
+	when
+		$ops : OrdemPagamentoRule( saldoIRPF >= 0.0 , saldoIRPF <= 1903.98 )
+	then
+		CalculoIRPF $irpf = new CalculoIRPF();
+		$irpf.setAliquota( 0d );
+		$irpf.setFaixaBase( 1903.98d );
+		insertLogical( $irpf );
+		modify($ops){
+		    atualizarSaldoIRPF($irpf.getAliquota(),$irpf.getFaixaBase());
+		}
+		System.out.println("ROW1 Atualizando SALDO = "+$ops.getSaldoIRPF()+", VLIRPF = "+$ops.getVlIRPF());
+end
+
+//from row number: 2
+//Faixa 2
+rule "Row2 Tabela IRPF2"
+	dialect "java"
+	ruleflow-group "irpf-rules2"
+	salience 4
+	when
+		$ops : OrdemPagamentoRule( saldoIRPF >= 1903.99 , saldoIRPF <= 2826.65 )
+	then
+		CalculoIRPF $irpf = new CalculoIRPF();
+		$irpf.setAliquota( 7.5d );
+		$irpf.setFaixaBase( 1903.98d );
+		insertLogical( $irpf );
+		modify($ops){
+		    atualizarSaldoIRPF($irpf.getAliquota(),$irpf.getFaixaBase());
+		}
+		System.out.println("ROW2 Atualizando SALDO = "+$ops.getSaldoIRPF()+", VLIRPF = "+$ops.getVlIRPF());
+end
+
+//from row number: 3
+//Faixa 3
+rule "Row3 Tabela IRPF2"
+	dialect "java"
+	ruleflow-group "irpf-rules2"
+	salience 3
+	when
+		$ops : OrdemPagamentoRule( saldoIRPF >= 2826.66 , saldoIRPF <= 3751.05 )
+	then
+		CalculoIRPF $irpf = new CalculoIRPF();
+		$irpf.setAliquota( 15.0d );
+		$irpf.setFaixaBase( 2826.65d );
+		insertLogical( $irpf );
+		modify($ops){
+		    atualizarSaldoIRPF($irpf.getAliquota(),$irpf.getFaixaBase());
+		}
+		System.out.println("ROW3 Atualizando SALDO = "+$ops.getSaldoIRPF()+", VLIRPF = "+$ops.getVlIRPF());
+end
+
+//from row number: 4
+//Faixa 4
+rule "Row4 Tabela IRPF2"
+	dialect "java"
+	ruleflow-group "irpf-rules2"
+	salience 2
+	when
+		$ops : OrdemPagamentoRule( saldoIRPF >= 3751.06 , saldoIRPF <= 4664.68 )
+	then
+		CalculoIRPF $irpf = new CalculoIRPF();
+		$irpf.setAliquota( 22.5d );
+		$irpf.setFaixaBase( 3751.05d );
+		insertLogical( $irpf );
+		modify($ops){
+		    atualizarSaldoIRPF($irpf.getAliquota(),$irpf.getFaixaBase());
+		}
+		System.out.println("ROW4 Atualizando SALDO = "+$ops.getSaldoIRPF()+", VLIRPF = "+$ops.getVlIRPF());
+end
+
+//from row number: 5
+//Faixa 5
+rule "Row5 Tabela IRPF2"
+	dialect "java"
+	ruleflow-group "irpf-rules2"
+	salience 1
+	when
+		$ops : OrdemPagamentoRule( saldoIRPF >= 4664.69 )
+	then
+		CalculoIRPF $irpf = new CalculoIRPF();
+		$irpf.setAliquota( 27.5d );
+		$irpf.setFaixaBase( 4664.68d );
+		insertLogical( $irpf );
+		modify($ops){
+		    atualizarSaldoIRPF($irpf.getAliquota(),$irpf.getFaixaBase());
+		}
+		System.out.println("ROW5 Atualizando SALDO = "+$ops.getSaldoIRPF()+", VLIRPF = "+$ops.getVlIRPF());
+end

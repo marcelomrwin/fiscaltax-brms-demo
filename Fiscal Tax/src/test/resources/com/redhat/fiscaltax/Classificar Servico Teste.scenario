@@ -1,0 +1,56 @@
+<scenario>
+  <name>Classificar Servico Teste.scenario</name>
+  <maxRuleFirings>100000</maxRuleFirings>
+  <globals/>
+  <fixtures>
+    <fact-data>
+      <type>OrdemPagamentoEntrada</type>
+      <fieldData>
+        <field-data>
+          <name>serie</name>
+          <value>APD</value>
+          <nature>4</nature>
+        </field-data>
+        <field-data>
+          <name>cdServico</name>
+          <value>01010</value>
+          <nature>4</nature>
+        </field-data>
+      </fieldData>
+      <name>$ope</name>
+      <isModify>false</isModify>
+    </fact-data>
+    <org.drools.workbench.models.testscenarios.shared.ActivateRuleFlowGroup>
+      <name>classificar-servico-rules</name>
+    </org.drools.workbench.models.testscenarios.shared.ActivateRuleFlowGroup>
+    <execution-trace>
+      <executionTimeResult>4</executionTimeResult>
+      <numberOfRulesFired>0</numberOfRulesFired>
+    </execution-trace>
+    <expect-fact>
+      <fieldValues>
+        <expect-field>
+          <fieldName>cdServicoFederal</fieldName>
+          <expected>5</expected>
+          <actualResult>No match</actualResult>
+          <successResult>false</successResult>
+          <explanation>Fact of type [OrdemPagamentoRule] was not found in the results.</explanation>
+          <operator>==</operator>
+          <nature>1</nature>
+        </expect-field>
+      </fieldValues>
+      <name>OrdemPagamentoRule</name>
+      <anonymous>true</anonymous>
+    </expect-fact>
+  </fixtures>
+  <lastRunResult>2017-10-07 13:20:49.796 UTC</lastRunResult>
+  <rules/>
+  <inclusive>false</inclusive>
+  <packageName>com.redhat.fiscaltax</packageName>
+  <imports>
+    <imports/>
+  </imports>
+  <ksessions>
+    <string>defaultKieSession</string>
+  </ksessions>
+</scenario>
