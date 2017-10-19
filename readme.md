@@ -1,4 +1,4 @@
-Fiscal Tax - processador de regras para calculo fiscal
+Fiscal Tax - Processador de regras para calculo fiscal
 =======================
 1) Encontrar o tipo de serviço (Colunas Z + AK)
 2) Encontrar o município de retenção (se tipo de serviço (item 1) for devido no local do prestador então é o município do prestador (Coluna E) senão é o município do local da prestação do serviço (Coluna AH) )
