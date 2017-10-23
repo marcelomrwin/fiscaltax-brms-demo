@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.ejb.EJB;
+import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -16,15 +16,30 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.LoggerFactory;
 
-@EJB(name="ExternalResourceClient")
 public class ExternalResourceClient implements Serializable {
 
 	private static final long serialVersionUID = -5500209592403158694L;
 
-	@PersistenceContext(unitName="com.redhat:FiscalTax")
-	protected EntityManager em;
-	
+	@PersistenceContext(unitName = "com.redhat:FiscalTax")
+	protected static EntityManager em;
+
+	protected static void config() {
+		if (em == null) {
+			try {
+				em = (EntityManager) new InitialContext().lookup("java:comp/env/jpa/FiscalTax");
+			} catch (Exception e) {
+				LoggerFactory.getLogger(ExternalResourceClient.class).error("Não obteve o entity manager!", e);
+			}
+		}
+	}
+
+	public static EntityManager getEntityManager() {
+		config();
+		return em;
+	}
+
 	public static void adicionarAcumuloIR(String documento, Date data, String tipo, Integer cdMunc, Integer cdServico,
 			Double vlImposto, Double aliquota) throws Exception {
 		if (aliquota == null)
@@ -39,6 +54,7 @@ public class ExternalResourceClient implements Serializable {
 		base.setTipo(tipo);
 		base.setValor(vlImposto);
 		
+		getEntityManager().persist(base);
 	}
 
 	public static Double consultarAliquota(Integer municipio, Integer servico) throws IOException {
