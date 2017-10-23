@@ -12,7 +12,7 @@ public class TestRestClient {
 	@Ignore
 	public void test() throws IOException {
 
-		Double aliquota = SimpleRestClient.consultarAliquota(3304557, 1);
+		Double aliquota = ExternalResourceClient.consultarAliquota(3304557, 1);
 		System.out.println(aliquota);
 
 	}

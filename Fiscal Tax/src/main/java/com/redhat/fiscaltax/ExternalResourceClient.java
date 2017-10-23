@@ -21,7 +21,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-public class SimpleRestClient implements Serializable {
+public class ExternalResourceClient implements Serializable {
 
 	private static final long serialVersionUID = -5500209592403158694L;
 
