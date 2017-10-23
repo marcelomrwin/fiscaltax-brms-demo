@@ -74,7 +74,7 @@ public class SimpleRestClient implements Serializable {
 
 	private static Connection recuperaConexaoDB() throws NamingException, SQLException {
 		InitialContext cxt = new InitialContext();
-		DataSource ds = (DataSource) cxt.lookup("java:jboss/datasources/OracleXE");
+		DataSource ds = (DataSource) cxt.lookup("java:jboss/datasources/ExampleDS");
 		Connection connection = ds.getConnection();
 		return connection;
 	}
