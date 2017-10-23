@@ -22,7 +22,7 @@ public class ExternalResourceClient implements Serializable {
 
 	private static final long serialVersionUID = -5500209592403158694L;
 
-	@PersistenceContext(unitName = "com.redhat:FiscalTax")
+	@PersistenceContext(unitName = "FiscalTax")
 	protected static EntityManager em;
 
 	protected static void config() {
