@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -16,19 +15,19 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ExternalResourceClient implements Serializable {
 
 	private static final long serialVersionUID = -5500209592403158694L;
-
-	@PersistenceContext(unitName = "FiscalTax")
+	protected static Logger logger = LoggerFactory.getLogger(ExternalResourceClient.class);
 	protected static EntityManager em;
 
 	protected static void config() {
 		if (em == null) {
 			try {
-				em = (EntityManager) new InitialContext().lookup("java:comp/env/jpa/FiscalTax");
+				em = (EntityManager) new InitialContext().lookup("java:comp/env/persistence/FiscalTax");
 			} catch (Exception e) {
 				LoggerFactory.getLogger(ExternalResourceClient.class).error("Não obteve o entity manager!", e);
 			}
@@ -53,6 +52,8 @@ public class ExternalResourceClient implements Serializable {
 		base.setServico(new Long(cdServico));
 		base.setTipo(tipo);
 		base.setValor(vlImposto);
+		
+		logger.info("Persistindo "+base.toString());
 		
 		getEntityManager().persist(base);
 	}
