@@ -39,6 +39,12 @@
     	<version>1.0.0.Final</version>
     	<scope>provided</scope>
     </dependency>
+    <dependency>
+    	<groupId>javax.ejb</groupId>
+    	<artifactId>javax.ejb-api</artifactId>
+    	<version>3.2</version>
+    	<scope>provided</scope>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>

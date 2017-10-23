@@ -22,13 +22,13 @@ public class BaseIR implements java.io.Serializable
 
    private java.lang.String tipo;
 
-   private java.lang.Double valor;
+   private java.lang.Double valor = 0.0;
 
    private java.lang.Long municipio;
 
    private java.lang.Long servico;
 
-   private java.lang.Double aliquota;
+   private java.lang.Double aliquota = 0.0;
 
    public BaseIR()
    {
