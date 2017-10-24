@@ -51,16 +51,16 @@
     <repository>
       <include>true</include>
       <metadata>
-        <id>maven.oracle.com</id>
-        <url>https://maven.oracle.com</url>
+        <id>fusesource</id>
+        <url>http://repo.fusesource.com/nexus/content/groups/public/</url>
         <source>SETTINGS</source>
       </metadata>
     </repository>
     <repository>
       <include>true</include>
       <metadata>
-        <id>fusesource</id>
-        <url>http://repo.fusesource.com/nexus/content/groups/public/</url>
+        <id>maven.oracle.com</id>
+        <url>https://maven.oracle.com</url>
         <source>SETTINGS</source>
       </metadata>
     </repository>
