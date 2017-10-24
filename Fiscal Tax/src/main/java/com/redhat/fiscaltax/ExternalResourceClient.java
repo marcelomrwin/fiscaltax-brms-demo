@@ -37,6 +37,7 @@ public class ExternalResourceClient implements Serializable {
 				.append(",".intern()).append(tipo).append(",".intern()).append(cdMunc).append(",".intern())
 				.append(cdServico).append(",".intern()).append(vlImposto).append(",".intern()).append(aliquota)
 				.append("]");
+		logger.info(sb.toString());
 		logger.info("============================================================================");
 
 		if (aliquota == null)
