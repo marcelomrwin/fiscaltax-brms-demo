@@ -61,6 +61,7 @@ public class ExternalResourceClient implements Serializable {
 
 		prepareStatement.executeUpdate();
 		prepareStatement.close();
+		connection.close();
 	}
 
 	private static void configIdMunicipio(Integer cdMunc, Connection connection, PreparedStatement prepareStatement)
@@ -68,10 +69,11 @@ public class ExternalResourceClient implements Serializable {
 		logger.info("CONFIG MUNICIPIO [" + cdMunc + "]");
 		PreparedStatement stm = connection.prepareStatement("SELECT ID from MUNICIPIO where codigo = ?");
 		stm.setInt(1, cdMunc);
-		ResultSet query = stm.executeQuery();
-		while (query.next()) {
-			int id = query.getInt("ID");
-			prepareStatement.setInt(5, id);
+		try (ResultSet query = stm.executeQuery()) {
+			while (query.next()) {
+				int id = query.getInt("ID");
+				prepareStatement.setInt(5, id);
+			}
 		}
 		stm.close();
 	}
@@ -81,10 +83,11 @@ public class ExternalResourceClient implements Serializable {
 		logger.info("CONFIG SERVICO [" + cdServico + "]");
 		PreparedStatement stm = connection.prepareStatement("SELECT ID from SERVICO where codigo = ?");
 		stm.setInt(1, cdServico);
-		ResultSet query = stm.executeQuery();
-		while (query.next()) {
-			int id = query.getInt("ID");
-			prepareStatement.setInt(6, id);
+		try (ResultSet query = stm.executeQuery()) {
+			while (query.next()) {
+				int id = query.getInt("ID");
+				prepareStatement.setInt(6, id);
+			}
 		}
 		stm.close();
 	}
