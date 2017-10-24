@@ -186,7 +186,7 @@
       <isInsertLogical>false</isInsertLogical>
     </insert-fact-column52>
     <org.drools.workbench.models.guided.dtable.shared.model.BRLActionColumn>
-      <hideColumn>false</hideColumn>
+      <hideColumn>true</hideColumn>
       <width>-1</width>
       <header>Free_Action</header>
       <definition>
@@ -197,7 +197,7 @@ System.out.println(&quot;OPR = &quot;+$opr.toString());</text>
       </definition>
       <childColumns>
         <org.drools.workbench.models.guided.dtable.shared.model.BRLActionVariableColumn>
-          <hideColumn>false</hideColumn>
+          <hideColumn>true</hideColumn>
           <width>-1</width>
           <header>Free_Action</header>
           <varName></varName>
