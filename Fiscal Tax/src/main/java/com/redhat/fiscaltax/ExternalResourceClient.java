@@ -2,10 +2,15 @@ package com.redhat.fiscaltax;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 import javax.naming.InitialContext;
-import javax.persistence.EntityManager;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -22,40 +27,61 @@ public class ExternalResourceClient implements Serializable {
 
 	private static final long serialVersionUID = -5500209592403158694L;
 	protected static Logger logger = LoggerFactory.getLogger(ExternalResourceClient.class);
-	protected static EntityManager em;
-
-	protected static void config() {
-		if (em == null) {
-			try {
-				em = (EntityManager) new InitialContext().lookup("java:comp/env/persistence/FiscalTax");
-			} catch (Exception e) {
-				LoggerFactory.getLogger(ExternalResourceClient.class).error("Não obteve o entity manager!", e);
-			}
-		}
-	}
-
-	public static EntityManager getEntityManager() {
-		config();
-		return em;
-	}
 
 	public static void adicionarAcumuloIR(String documento, Date data, String tipo, Integer cdMunc, Integer cdServico,
 			Double vlImposto, Double aliquota) throws Exception {
 		if (aliquota == null)
 			aliquota = 0.0;
 
-		BaseIR base = new BaseIR();
-		base.setAliquota(aliquota);
-		base.setDocumento(documento);
-		base.setDtservico(data);
-		base.setMunicipio(new Long(cdMunc));
-		base.setServico(new Long(cdServico));
-		base.setTipo(tipo);
-		base.setValor(vlImposto);
-		
-		logger.info("Persistindo "+base.toString());
-		
-		getEntityManager().persist(base);
+		String sql = new String(
+				"INSERT INTO BASEIR(ID,DOCUMENTO,DTSERVICO,TIPO,VALOR,VERSION,MUNICIPIO_ID,SERVICO_ID,ALIQUOTA) VALUES (NEXTVAL('BASEIR_ID_SEQ'),?,?,?,?,0,?,?,?)");
+
+		Connection connection = recuperaConexaoDB();
+		PreparedStatement prepareStatement = connection.prepareStatement(sql);
+
+		configIdMunicipio(cdMunc, connection, prepareStatement);
+		configIdServico(cdServico, connection, prepareStatement);
+
+		prepareStatement.setString(1, documento);
+		prepareStatement.setDate(2, new java.sql.Date(data.getTime()));
+		prepareStatement.setString(3, tipo);
+		prepareStatement.setDouble(4, vlImposto);
+
+		prepareStatement.setDouble(7, aliquota);
+
+		prepareStatement.executeUpdate();
+		prepareStatement.close();
+	}
+
+	private static void configIdMunicipio(Integer cdMunc, Connection connection, PreparedStatement prepareStatement)
+			throws SQLException {
+		PreparedStatement stm = connection.prepareStatement("SELECT ID from MUNICIPIO where codigo = ?");
+		stm.setInt(1, cdMunc);
+		ResultSet query = stm.executeQuery();
+		while (query.next()) {
+			int id = query.getInt("ID");
+			prepareStatement.setInt(5, id);
+		}
+		stm.close();
+	}
+
+	private static void configIdServico(Integer cdServico, Connection connection, PreparedStatement prepareStatement)
+			throws SQLException {
+		PreparedStatement stm = connection.prepareStatement("SELECT ID from SERVICO where codigo = ?");
+		stm.setInt(1, cdServico);
+		ResultSet query = stm.executeQuery();
+		while (query.next()) {
+			int id = query.getInt("ID");
+			prepareStatement.setInt(6, id);
+		}
+		stm.close();
+	}
+
+	private static Connection recuperaConexaoDB() throws NamingException, SQLException {
+		InitialContext cxt = new InitialContext();
+		DataSource ds = (DataSource) cxt.lookup("java:jboss/datasources/ExampleDS");
+		Connection connection = ds.getConnection();
+		return connection;
 	}
 
 	public static Double consultarAliquota(Integer municipio, Integer servico) throws IOException {
