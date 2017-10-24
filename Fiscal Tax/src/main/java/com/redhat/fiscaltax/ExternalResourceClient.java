@@ -30,6 +30,15 @@ public class ExternalResourceClient implements Serializable {
 
 	public static void adicionarAcumuloIR(String documento, Date data, String tipo, Integer cdMunc, Integer cdServico,
 			Double vlImposto, Double aliquota) throws Exception {
+
+		logger.info("============================================================================");
+		StringBuilder sb = new StringBuilder();
+		sb.append("Entrou no método com os parámetros [").append(documento).append(",".intern()).append(data)
+				.append(",".intern()).append(tipo).append(",".intern()).append(cdMunc).append(",".intern())
+				.append(cdServico).append(",".intern()).append(vlImposto).append(",".intern()).append(aliquota)
+				.append("]");
+		logger.info("============================================================================");
+
 		if (aliquota == null)
 			aliquota = 0.0;
 
@@ -55,6 +64,7 @@ public class ExternalResourceClient implements Serializable {
 
 	private static void configIdMunicipio(Integer cdMunc, Connection connection, PreparedStatement prepareStatement)
 			throws SQLException {
+		logger.info("CONFIG MUNICIPIO [" + cdMunc + "]");
 		PreparedStatement stm = connection.prepareStatement("SELECT ID from MUNICIPIO where codigo = ?");
 		stm.setInt(1, cdMunc);
 		ResultSet query = stm.executeQuery();
@@ -67,6 +77,7 @@ public class ExternalResourceClient implements Serializable {
 
 	private static void configIdServico(Integer cdServico, Connection connection, PreparedStatement prepareStatement)
 			throws SQLException {
+		logger.info("CONFIG SERVICO [" + cdServico + "]");
 		PreparedStatement stm = connection.prepareStatement("SELECT ID from SERVICO where codigo = ?");
 		stm.setInt(1, cdServico);
 		ResultSet query = stm.executeQuery();
@@ -81,11 +92,12 @@ public class ExternalResourceClient implements Serializable {
 		InitialContext cxt = new InitialContext();
 		DataSource ds = (DataSource) cxt.lookup("java:jboss/datasources/ExampleDS");
 		Connection connection = ds.getConnection();
+
 		return connection;
 	}
 
 	public static Double consultarAliquota(Integer municipio, Integer servico) throws IOException {
-		System.out.println("Consultando aliquota para municipio [" + municipio + "] e serviço [" + servico + "]");
+		logger.info("Consultando aliquota para municipio [" + municipio + "] e serviço [" + servico + "]");
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		Double retorno = 5.0;
 		try {
@@ -93,9 +105,9 @@ public class ExternalResourceClient implements Serializable {
 					"http://localhost:8080/fiscaltax-services/rest/aliquota/ISS/" + municipio + "/" + servico);
 			CloseableHttpResponse response = httpclient.execute(httpGet);
 			try {
-				System.out.println(response.getStatusLine());
+				logger.info(response.getStatusLine().toString());
 				if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-					System.out.println("Retorno diferente de 200! resolver oq fazer");
+					logger.info("Retorno diferente de 200! resolver oq fazer");
 				} else {
 					HttpEntity entity = response.getEntity();
 					String ret = EntityUtils.toString(entity, "UTF-8");
@@ -112,7 +124,7 @@ public class ExternalResourceClient implements Serializable {
 		} finally {
 			httpclient.close();
 		}
-		System.out.println("Retornando " + retorno);
+		logger.info("Retornando " + retorno);
 		return retorno;
 	}
 
