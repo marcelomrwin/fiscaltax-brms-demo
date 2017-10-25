@@ -75,14 +75,6 @@
     <repository>
       <include>true</include>
       <metadata>
-        <id>maven.oracle.com</id>
-        <url>https://maven.oracle.com</url>
-        <source>SETTINGS</source>
-      </metadata>
-    </repository>
-    <repository>
-      <include>true</include>
-      <metadata>
         <id>jboss-ga-repository</id>
         <url>http://maven.repository.redhat.com/techpreview/all</url>
         <source>SETTINGS</source>
