@@ -270,7 +270,7 @@ System.out.println(&quot;OPR = &quot;+$opr.toString());</text>
         <isOtherwise>false</isOtherwise>
       </value>
       <value>
-        <valueString>01010</valueString>
+        <valueString>1.01</valueString>
         <dataType>STRING</dataType>
         <isOtherwise>false</isOtherwise>
       </value>
@@ -351,7 +351,7 @@ System.out.println(&quot;OPR = &quot;+$opr.toString());</text>
         <isOtherwise>false</isOtherwise>
       </value>
       <value>
-        <valueString>01020</valueString>
+        <valueString>1.02</valueString>
         <dataType>STRING</dataType>
         <isOtherwise>false</isOtherwise>
       </value>
@@ -431,7 +431,7 @@ System.out.println(&quot;OPR = &quot;+$opr.toString());</text>
         <isOtherwise>false</isOtherwise>
       </value>
       <value>
-        <valueString>01030</valueString>
+        <valueString>1.03</valueString>
         <dataType>STRING</dataType>
         <isOtherwise>false</isOtherwise>
       </value>
