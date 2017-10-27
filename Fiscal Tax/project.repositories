@@ -35,17 +35,17 @@
     <repository>
       <include>true</include>
       <metadata>
-        <id>guvnor-m2-repo</id>
-        <url>http://localhost:8080/business-central/maven2/</url>
-        <source>PROJECT</source>
+        <id>jboss-groups-ea-plugin-repository</id>
+        <url>https://repository.jboss.org/nexus/content/groups/ea</url>
+        <source>SETTINGS</source>
       </metadata>
     </repository>
     <repository>
       <include>true</include>
       <metadata>
-        <id>jboss-groups-ea-plugin-repository</id>
-        <url>https://repository.jboss.org/nexus/content/groups/ea</url>
-        <source>SETTINGS</source>
+        <id>guvnor-m2-repo</id>
+        <url>http://localhost:8080/business-central/maven2/</url>
+        <source>PROJECT</source>
       </metadata>
     </repository>
     <repository>
